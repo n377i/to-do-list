@@ -91,12 +91,12 @@
 }
 
 .list li label:focus {
-  background: var(--primary-color);
+  background: var(--grey);
   outline: none;
 }
 
 .list li label[contenteditable]:hover {
-  background: var(--primary-color);
+  background: var(--grey);
 }
 
 .list li.completed {
