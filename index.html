@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="todo-app">
+        <h2>To-Do List</h2>
+        <div class="row">
+          <input type="text" id="input-field" class="input-field" placeholder="Add a task"><button title="Add task" id="add-btn" class="add-btn">+</button>
+        </div>
+        <ul id="list" class="list">
+          <li class="completed">
+            <div>
+              <input type="checkbox" class="checkbox">
+              <label contenteditable>Task 1</label>
+            </div>
+            <button title="Remove task" class="remove-btn">x</button>
+          </li>
+          <li>
+            <div>
+              <input type="checkbox" class="checkbox">
+              <label>Task 2</label>
+            </div>
+            <button title="Remove task" class="remove-btn">x</button>
+          </li>
+          <li>
+            <div>
+              <input type="checkbox" class="checkbox">
+              <label>Task 3</label>
+            </div>
+            <button title="Remove task" class="remove-btn">x</button>
+          </li>
+        </ul>
+  </div>
+  </body>
+</html>
