@@ -12,12 +12,12 @@
     <div class="container">
       <div class="todo-app">
         <h2>To-Do List</h2>
-        <div class="row">
-          <input type="text" id="input-field" class="input-field" placeholder="Add a task"><button title="Add task" id="add-btn" class="add-btn">+</button>
-        </div>
+        <form id="todo-form" class="todo-form">
+          <input type="text" placeholder="Add a task"><button type="submit" title="Add task" id="add-btn" class="add-btn">+</button>
+        </form>
         <p id="notice" class="notice"></p>
-        <ul id="list" class="list">
-          <li class="completed">
+        <ul id="todo-list" class="todo-list">
+          <!-- <li class="completed">
             <div>
               <input type="checkbox" class="checkbox">
               <label>Task 1</label>
@@ -37,8 +37,9 @@
               <label contenteditable>Task 3</label>
             </div>
             <button title="Remove task" class="remove-btn">x</button>
-          </li>
+          </li> -->
         </ul>
+      </div>
   </div>
   </body>
 </html>
