@@ -39,7 +39,13 @@ toDoForm.addEventListener('submit', evt => {
   }
 })
 
-toDoList.addEventListener("click", evt => {
+toDoList.addEventListener('input', evt => {
+  const taskId = evt.target.closest('li').id;
+
+  updateTask(taskId, evt.target);
+})
+
+toDoList.addEventListener('click', evt => {
   if(evt.target.classList.contains('remove-btn')) {
     const taskId = evt.target.closest('li').id;
 
@@ -69,9 +75,36 @@ const createTask = task => {
   countTasks();
 }
 
-const removeTask = (taskId) => {
+const updateTask = (taskId, el) => {
+  const task = tasks.find(task =>
+    task.id === parseInt(taskId)
+  );
+
+  if(el.hasAttribute('contenteditable')) {
+    task.name = el.innerText;
+  } else {
+    const span = el.nextElementSibling;
+    const parent = el.closest('li');
+
+    task.isCompleted = !task.isCompleted;
+
+    if(task.isCompleted) {
+      span.removeAttribute('contenteditable');
+      parent.classList.add('completed');
+    } else {
+      span.setAttribute('contenteditable', 'true');
+      parent.classList.remove('completed');
+    }
+  }
+
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+
+  countTasks();
+}
+
+const removeTask = taskId => {
   tasks = tasks.filter(task =>
-    task.id != parseInt(taskId)
+    task.id !== parseInt(taskId)
   );
 
   localStorage.setItem('tasks', JSON.stringify(tasks));
