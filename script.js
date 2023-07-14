@@ -53,13 +53,19 @@ toDoList.addEventListener('click', evt => {
   }
 })
 
+toDoList.addEventListener('keydown', evt => {
+  if(evt.keyCode === 13) {
+    evt.preventDefault();
+    evt.target.blur();
+  }
+})
+
 const createTask = task => {
   const listItem = document.createElement('li');
   listItem.setAttribute('id', task.id);
 
   if(task.isCompleted) {
     listItem.classList.add('completed');
-    toDoInput.style.backgroundColor = 'var(--light-green)';
   }
 
   const listItemMarkup = `
