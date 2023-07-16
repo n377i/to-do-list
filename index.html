@@ -13,12 +13,20 @@
       <div class="todo-app">
         <h2>To-Do List</h2>
         <form id="todo-form" class="todo-form">
-          <input type="text" placeholder="Add a task"><button type="submit" title="Add task" id="add-btn" class="add-btn">+</button>
+          <input type="text" placeholder="Add a task"><button type="submit" title="Add task" class="add-btn">+</button>
         </form>
         <p id="notice" class="notice"></p>
+        <div class="task-count">
+          Completed
+          <div>
+            <span id="completed-tasks">0</span>/<span id="total-tasks">0</span>
+          </div>
+        </div>
+        <div class="progress-bar">
+          <div class="progress"></div>
+        </div>
         <ul id="todo-list" class="todo-list">
         </ul>
-        <p>Completed: <span id="completed-tasks">0</span>/<span id="total-tasks">0</span></p>
       </div>
   </div>
   </body>

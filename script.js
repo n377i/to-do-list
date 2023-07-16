@@ -2,8 +2,6 @@
 
 const toDoForm = document.querySelector('#todo-form');
 const toDoInput = document.querySelector('#todo-form input');
-const btnAddTask = document.querySelector('#add-btn');
-const btnRemoveTask = document.querySelector('#remove-btn');
 const notice = document.querySelector('#notice');
 const toDoList = document.querySelector('#todo-list');
 const completedTasks = document.querySelector('#completed-tasks');
@@ -125,6 +123,10 @@ const countTasks = () => {
   );
     completedTasks.innerText = completedTasksArr.length;
     totalTasks.innerText = tasks.length;
+
+    const progressPercent = (completedTasksArr.length / tasks.length) * 100;
+    const progressBar = document.querySelector('.progress');
+    progressBar.style.width = `${progressPercent}%`;
 }
 
 if(localStorage.getItem('tasks')) {
