@@ -15,7 +15,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Nunito', Arial, Helvetica, sans-serif;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
   color: var(--text-color);
 }
 
@@ -78,7 +78,7 @@ p.notice {
   display: flex;
   justify-content: space-between;
   margin: 1.25rem 0 0.25rem;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .progress-bar {
