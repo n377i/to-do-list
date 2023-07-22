@@ -1,14 +1,14 @@
 :root {
-  --primary-color: #fff;
-  --secondary-color: #9acd32;
-  --headline-color: #222;
-  --text-color: #666;
-  --light-grey: #f5f5f5;
+  --white: #fff;
+  --green: #9acd32;
+  --green-gradient: #d9f3a0, var(--green);
+  --light-grey: #f8f8f8;
   --grey: #e5e5e5;
-  --dark-grey: #a0a0a0;
-  --light-green: #f2f9e4;
+  --dark-grey: #938d8c;
+  --light-green: #f5faeb;
   --light-red: #fdeeeb;
   --red: #e62600;
+  --text-color: #4A5045;
 }
 
 * {
@@ -21,52 +21,55 @@
 
 .container {
   width: 100%;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #153677, #4e085f);
-  padding: 0.625rem;
+  background: linear-gradient(135deg, var(--green-gradient));
+  padding-top: 3rem;
+}
+
+.container h1 {
+  font-size: 1.25rem;
+  color: var(--white);
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
 }
 
 .todo-app {
   width: 100%;
-  max-width: 34rem;
-  background: var(--primary-color);
-  margin: 6.25rem auto 1.25rem;
-  padding: 2.5rem 1.875rem;
+  min-height: 100vh;
+  background: var(--light-grey);
+  margin-top: 2.5rem;
+  padding: 1.25rem 1rem 0;
   border-radius: 10px;
 }
 
-.todo-app h2 {
-  color: var(--headline-color);
-  margin-bottom: 1.25rem;
-}
-
 .todo-form {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  position: relative;
 }
 
 .todo-form input {
-  width: calc(100% - 3.625rem);
-  padding: 1.25rem;
+  font-size: 1rem;
+  font-weight: 300;
+  width: calc(100% - 2rem);
+  padding: 0.875rem 1.25rem;
+  margin: 0 1rem;
   border: none;
   outline: none;
-  background: var(--grey);
-  border-top-left-radius: 6px;
-  border-bottom-left-radius: 6px;
+  background: var(--white);
+  border-radius: 8px;
 }
 
-.add-btn {
-  border: none;
-  outline: none;
-  width: 3.625rem;
-  height: 3.625rem;
-  background: var(--secondary-color);
-  color: var(--primary-color);
-  font-size: 2.625rem;
+.todo-form::after {
+  position: absolute;
+  content: "";
+  display: block;
+  width: 1.125rem;
+  height: 1.125rem;
+  background-image: url('img/icon_add.svg');
+  background-repeat: no-repeat;
+  right: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
   cursor: pointer;
-  border-top-right-radius: 6px;
-  border-bottom-right-radius: 6px;
 }
 
 p.notice {
@@ -77,31 +80,38 @@ p.notice {
 .task-count {
   display: flex;
   justify-content: space-between;
-  margin: 1.25rem 0 0.25rem;
+  margin-bottom: 0.25rem;
   font-weight: 500;
+}
+
+.task-count .count-display,
+.task-count span {
+  color: var(--dark-grey);
 }
 
 .progress-bar {
   width: 100%;
   height: 0.5rem;
-  background: var(--light-grey);
+  background: var(--grey);
   border-radius: 4px;
 }
 
 .progress-bar .progress {
   height: 100%;
-  background: var(--secondary-color);
+  background: linear-gradient(45deg, var(--green-gradient));
   border-radius: 4px;
 }
 
 .todo-list {
-  margin-top: 1.5rem;
+  margin-top: 1rem;
 }
 
 .todo-list li {
-  background: #fbfbfb;
-  border-radius: 6px;
-  padding: 1.5rem 1.25rem;
+  font-weight: 300;
+  background: var(--white);
+  box-shadow: 0px 3px 12px 0px rgba(74, 80, 69, 0.08);
+  border-radius: 8px;
+  padding: 0.8125rem 1rem;
   margin-bottom: 1rem;
   display: flex;
   justify-content: space-between;
@@ -111,6 +121,7 @@ p.notice {
 .todo-list li div {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .todo-list li label {
@@ -136,16 +147,16 @@ p.notice {
 
 .todo-list li.completed label {
   text-decoration: line-through;
-  color: var(--secondary-color);
+  color: var(--green);
 }
 
 .checkbox {
   appearance: none;
   display: grid;
   place-content: center;
-  width: 1.5rem;
-  height: 1.5rem;
-  border: 2px solid var(--dark-grey);
+  width: 2rem;
+  height: 2rem;
+  border: 2px solid var(--grey);
   border-radius: 100%;
   background: transparent;
 }
@@ -156,14 +167,10 @@ p.notice {
 
 .checkbox:checked::before {
   content: "";
-  width: 0.375rem;
-  height: 1rem;
-  border: solid var(--secondary-color);
-  border-width: 0 6px 6px 0;
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  transform: rotate(45deg);
-  margin-bottom: 0.25rem;
+  background-image: url(img/icon_check.svg);
+  background-repeat: no-repeat;
+  width: 1.875rem;
+  height: 1.5rem;
 }
 
 .remove-btn {
