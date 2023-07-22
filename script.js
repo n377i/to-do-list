@@ -14,7 +14,7 @@ toDoForm.addEventListener('submit', evt => {
 
   if(toDoInput.value) {
     notice.innerText = null;
-    toDoInput.style.backgroundColor = 'var(--grey)';
+    toDoInput.style.backgroundColor = 'var(--white)';
 
     const task = {
       id: new Date().getTime(),
