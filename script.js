@@ -1,7 +1,8 @@
 'use strict';
 
 const toDoForm = document.querySelector('#todo-form');
-const toDoInput = document.querySelector('#todo-form input');
+const toDoInput = document.querySelector('#todo-input');
+const addBtn = document.querySelector('#add-btn');
 const notice = document.querySelector('#notice');
 const toDoList = document.querySelector('#todo-list');
 const completedTasks = document.querySelector('#completed-tasks');
@@ -35,6 +36,10 @@ toDoForm.addEventListener('submit', evt => {
     notice.innerText = 'Please enter task first.';
     toDoInput.focus();
   }
+})
+
+addBtn.addEventListener('click', function() {
+  toDoForm.submit();
 })
 
 toDoList.addEventListener('input', evt => {
