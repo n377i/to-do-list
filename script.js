@@ -6,6 +6,10 @@ const notice = document.querySelector('#notice');
 const toDoList = document.querySelector('#todo-list');
 const completedTasks = document.querySelector('#completed-tasks');
 const totalTasks = document.querySelector('#total-tasks');
+const overlay = document.querySelector('#overlay');
+const editMenu = document.querySelector('#edit-menu');
+const removeLink = document.querySelector('#remove');
+const cancelLink = document.querySelector('#cancel');
 
 let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
@@ -31,8 +35,8 @@ toDoForm.addEventListener('submit', evt => {
     toDoInput.focus();
 
   } else {
-    toDoInput.style.backgroundColor = 'var(--light-red)';
-    notice.innerText = 'Please enter task first.';
+    toDoInput.style.outline = '1px solid var(--red)';
+    toDoInput.style.backgroundColor = 'var(--light-red)'
     toDoInput.focus();
   }
 })
@@ -44,10 +48,19 @@ toDoList.addEventListener('input', evt => {
 })
 
 toDoList.addEventListener('click', evt => {
-  if(evt.target.classList.contains('remove-btn')) {
+  if(evt.target.classList.contains('edit-btn')) {
     const taskId = evt.target.closest('li').id;
 
-    removeTask(taskId);
+    editMenu.classList.toggle('open');
+    overlay.classList.toggle('open');
+    removeLink.addEventListener('click', () => {
+      removeTask(taskId)
+    });
+    cancelLink.addEventListener('click', () => {
+      editMenu.classList.remove('open');
+      overlay.classList.remove('open');
+      toDoInput.focus();
+    })
   }
 })
 
@@ -71,7 +84,7 @@ const createTask = task => {
       <input type="checkbox" id="${task.id}" class="checkbox" ${task.isCompleted ? 'checked' : ''}>
         <label ${!task.isCompleted ? 'contenteditable' : ''}>${task.name}</label>
     </div>
-    <button title="Remove task" class="remove-btn">x</button>
+    <button title="Open edit-menu" class="edit-btn">x</button>
   `;
   listItem.innerHTML = listItemMarkup;
   toDoList.appendChild(listItem);
