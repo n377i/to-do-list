@@ -6,7 +6,7 @@
   --grey: #e5e5e5;
   --dark-grey: #938d8c;
   --light-green: #f5faeb;
-  --light-red: #fdeeeb;
+  --light-red: #fbf4f2;
   --red: #e62600;
   --text-color: #4A5045;
 }
@@ -35,12 +35,12 @@ header h1 {
 }
 
 .todo-app {
-  width: 100%;
-  min-height: 100vh;
+  min-height: calc(100vh - 11.025rem);
   background: var(--light-grey);
   margin-top: -0.975rem;
   padding: 1.25rem 1rem 0;
-  border-radius: 10px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 }
 
 .todo-form {
@@ -177,9 +177,48 @@ p.notice {
   height: 1.5rem;
 }
 
-.remove-btn {
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.edit-btn {
   border: none;
   background: transparent;
   font-size: 1.25rem;
+  cursor: pointer;
+}
+
+.edit-menu {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  transform: translateY(100%);
+  transition: transform 0.3s ease-in-out;
+  background: var(--white);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  padding: 1rem;
+  list-style: none;
+}
+
+.edit-menu.open {
+  transform: translateY(0);
+}
+
+.link {
   cursor: pointer;
 }
