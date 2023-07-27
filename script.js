@@ -53,13 +53,15 @@ toDoList.addEventListener('click', evt => {
 
     editMenu.classList.toggle('open');
     overlay.classList.toggle('open');
+
     removeLink.addEventListener('click', () => {
+      editMenu.classList.remove('open');
+      overlay.classList.remove('open');
       removeTask(taskId)
     });
     cancelLink.addEventListener('click', () => {
       editMenu.classList.remove('open');
       overlay.classList.remove('open');
-      toDoInput.focus();
     })
   }
 })
