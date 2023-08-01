@@ -128,8 +128,10 @@ const removeTask = taskId => {
 
   localStorage.setItem('tasks', JSON.stringify(tasks));
 
-  document.getElementById(taskId).remove();
-  countTasks();
+  if(taskId !== null) {
+    document.getElementById(taskId).remove();
+    countTasks();
+  }
 }
 
 const countTasks = () => {
