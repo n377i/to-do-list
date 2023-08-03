@@ -1,8 +1,7 @@
 'use strict';
 
 const toDoForm = document.querySelector('#todo-form');
-const toDoInput = document.querySelector('#todo-input');
-const notice = document.querySelector('#notice');
+const taskInput = document.querySelector('#todo-input');
 const toDoList = document.querySelector('#todo-list');
 const completedTasks = document.querySelector('#completed-tasks');
 const totalTasks = document.querySelector('#total-tasks');
@@ -16,13 +15,13 @@ let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 toDoForm.addEventListener('submit', evt => {
   evt.preventDefault();
 
-  if(toDoInput.value) {
-    notice.innerText = null;
-    toDoInput.style.backgroundColor = 'var(--white)';
+  if(taskInput.value) {
+    taskInput.style.backgroundColor = 'var(--white)';
+    taskInput.style.outline = 'none';
 
     const task = {
       id: new Date().getTime(),
-      name: toDoInput.value,
+      name: taskInput.value,
       isCompleted: false
     }
 
@@ -32,12 +31,12 @@ toDoForm.addEventListener('submit', evt => {
     createTask(task);
 
     toDoForm.reset();
-    toDoInput.focus();
+    taskInput.focus();
 
   } else {
-    toDoInput.style.outline = '1px solid var(--red)';
-    toDoInput.style.backgroundColor = 'var(--light-red)'
-    toDoInput.focus();
+    taskInput.style.outline = '1px solid var(--red)';
+    taskInput.style.backgroundColor = 'var(--light-red)'
+    taskInput.focus();
   }
 })
 
