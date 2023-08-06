@@ -46,31 +46,36 @@ toDoList.addEventListener('input', evt => {
   updateTask(taskId, evt.target);
 })
 
-toDoList.addEventListener('click', evt => {
-  if(evt.target.classList.contains('edit-btn')) {
-    const taskId = evt.target.closest('li').id;
-
-    editMenu.classList.toggle('open');
-    overlay.classList.toggle('open');
-
-    removeLink.addEventListener('click', () => {
-      editMenu.classList.remove('open');
-      overlay.classList.remove('open');
-      removeTask(taskId)
-    });
-    cancelLink.addEventListener('click', () => {
-      editMenu.classList.remove('open');
-      overlay.classList.remove('open');
-    })
-  }
-})
-
 toDoList.addEventListener('keydown', evt => {
   if(evt.keyCode === 13) {
     evt.preventDefault();
     evt.target.blur();
   }
 })
+
+toDoList.addEventListener('click', evt => {
+if(evt.target.classList.contains('edit-btn')) {
+  const taskId = evt.target.closest('li').id;
+
+  removeLink.dataset.taskId = taskId;
+  cancelLink.dataset.taskId = taskId;
+
+  editMenu.classList.toggle('open');
+  overlay.classList.toggle('open');
+}
+});
+
+editMenu.addEventListener('click', evt => {
+  const taskId = evt.target.dataset.taskId;
+  if (evt.target === removeLink) {
+      editMenu.classList.remove('open');
+      overlay.classList.remove('open');
+      removeTask(taskId);
+  } else if (evt.target === cancelLink) {
+      editMenu.classList.remove('open');
+      overlay.classList.remove('open');
+  }
+});
 
 const createTask = task => {
   const listItem = document.createElement('li');
