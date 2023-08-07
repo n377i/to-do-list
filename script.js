@@ -90,7 +90,7 @@ const createTask = task => {
       <input type="checkbox" id="${task.id}" class="checkbox" ${task.isCompleted ? 'checked' : ''}>
         <label ${!task.isCompleted ? 'contenteditable' : ''}>${task.name}</label>
     </div>
-    <button title="Open edit-menu" class="edit-btn">x</button>
+    <img class="edit-btn" src="img/icon_edit-menu.svg" alt="edit menu">
   `;
   listItem.innerHTML = listItemMarkup;
   toDoList.appendChild(listItem);
