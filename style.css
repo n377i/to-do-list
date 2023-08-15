@@ -117,34 +117,23 @@ header h1 {
   align-items: center;
 }
 
-.todo-list li div {
+.todo-list li label {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.todo-list li label {
+.todo-list li p {
   flex: 1;
-  padding: 0.125rem;
-  margin: 0 .75rem;
-  border-radius: 4px;
-  transition: 0.2s;
+  word-break: break-all;
+  margin: 0 0.875rem
 }
 
-.todo-list li label:focus {
-  background: var(--grey);
-  outline: none;
-}
-
-.todo-list li label[contenteditable]:hover {
-  background: var(--grey);
-}
-
-.todo-list li.completed {
+.todo-list li.checked {
   background: var(--light-green);
 }
 
-.todo-list li.completed label {
+.todo-list li.checked p {
   text-decoration: line-through;
   color: var(--green);
 }
