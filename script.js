@@ -78,14 +78,14 @@ const updateStatus = (id) => {
 }
 
 // event delegation for checkboxes
-toDoList.addEventListener('change', (evt) => {
+toDoList.addEventListener('change', evt => {
   if (evt.target.matches('.checkbox')) {
     const taskId = parseInt(evt.target.id);
     updateStatus(taskId);
   }
 });
 
-toDoList.addEventListener('click', (evt) => {
+toDoList.addEventListener('click', evt => {
   if (evt.target.matches('.edit-btn')) {
     const taskId = evt.target.getAttribute('data-task-id');
     showEditMenu(taskId);
@@ -98,7 +98,7 @@ const showEditMenu = (taskId) => {
   overlay.classList.toggle('open');
 }
 
-editMenu.addEventListener('click', (evt) => {
+editMenu.addEventListener('click', evt => {
   const taskId = editMenu.getAttribute('data-current-task-id');
 
   if (evt.target.closest('#edit')) {
@@ -128,7 +128,7 @@ editMenu.addEventListener('click', (evt) => {
 });
 
 // close menu when clicked outside of it
-document.addEventListener('click', (evt) => {
+document.addEventListener('click', evt => {
   if (!editMenu.contains(evt.target) && !evt.target.matches('.edit-btn')) {
     editMenu.classList.remove('open');
     overlay.classList.remove('open');
