@@ -120,10 +120,6 @@ editMenu.addEventListener('click', evt => {
     createTask();
     editMenu.classList.remove('open'); // close menu
     overlay.classList.remove('open');
-    // close menu when "Cancel" is clicked
-  } else if (evt.target.closest('#cancel')) { 
-    editMenu.classList.remove('open');
-    overlay.classList.remove('open');
   }
 });
 
