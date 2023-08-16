@@ -34,7 +34,7 @@ header h1 {
   margin-bottom: 1rem;
 }
 
-.todo-app {
+.todo-main {
   min-height: calc(100vh - 11.025rem);
   background: var(--light-grey);
   margin-top: -0.975rem;
@@ -53,9 +53,9 @@ header h1 {
   width: calc(100% - 2rem);
   padding: 0.875rem 1.25rem;
   margin: 0 1rem;
+  background: var(--white);
   border: none;
   outline: none;
-  background: var(--white);
   border-radius: 8px;
 }
 
@@ -159,6 +159,15 @@ header h1 {
   background-repeat: no-repeat;
   width: 1.875rem;
   height: 1.5rem;
+}
+
+.todo-form .todo-input.invalid-input {
+  background: var(--light-red);
+  outline: 1px solid var(--red);
+}
+
+.todo-form .todo-input.editing {
+  background: var(--light-grey);
 }
 
 .overlay {
