@@ -3,124 +3,156 @@
 const toDoForm = document.querySelector('#todo-form');
 const taskInput = document.querySelector('#todo-input');
 const toDoList = document.querySelector('#todo-list');
+const toDoStatus = document.querySelector('#todo-status');
 const completedTasks = document.querySelector('#completed-tasks');
 const totalTasks = document.querySelector('#total-tasks');
 const overlay = document.querySelector('#overlay');
 const editMenu = document.querySelector('#edit-menu');
 
-let tasks = JSON.parse(localStorage.getItem('tasks')) || []; // get tasks from local storage or pass an empty array
+let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 let editingMode = false;
 let editingTaskId = null;
+let saveTimeout;
 
 toDoForm.addEventListener('submit', evt => {
   evt.preventDefault();
-  taskInput.style.backgroundColor = 'var(--white)';
-  taskInput.style.outline = 'none';
-
   if (taskInput.value.trim()) {
     if (editingMode && editingTaskId !== null) {
-      // update task name and reset mode
-      tasks[editingTaskId].name = taskInput.value;
-      editingMode = false;
-      editingTaskId = null;
+      tasks[editingTaskId].name = taskInput.value; // update task name
+      addOrUpdateTask(tasks[editingTaskId], editingTaskId); // update task in DOM
+      editingMode = false; // reset editing mode
+      editingTaskId = null; // reset editingTaskId
+      taskInput.classList.remove('editing');
+  
     } else {
       const taskInfo = {
         name: taskInput.value,
         status: 'pending'
       }
       tasks.push(taskInfo);
+      addOrUpdateTask(taskInfo, tasks.length - 1);
     }
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-    createTask();
+
+    saveTasks();
     toDoForm.reset();
     taskInput.focus();
   } else {
-    taskInput.style.outline = '1px solid var(--red)';
-    taskInput.style.backgroundColor = 'var(--light-red)';
+    taskInput.classList.add('invalid-input');
     taskInput.focus();
   }
 });
 
-const createTask = () => {
-  let li = '';
-  if (tasks) {
-    tasks.forEach((task, id) => {
-      const checked = task.status === 'completed' ? 'checked' : '';
-      li += `
-          <li class="${checked}">
-              <label for="${id}">
-                  <input type="checkbox" id="${id}" class="checkbox" ${checked}>
-                  <p>${task.name}</p>
-              </label>
-              <img class="edit-btn" data-task-id="${id}" src="img/icon_edit-menu.svg" alt="edit menu">
-          </li>
-          `;
-    });
+toDoForm.addEventListener('input', () => {
+  if (!editingMode) {
+    taskInput.classList.remove('invalid-input');
   }
-  toDoList.innerHTML = li;
+});
 
-  countTasks();
-}
+const addOrUpdateTask = (task, id) => {
+  console.log("addOrUpdateTask called for task:", task);
+  const existingTask = toDoList.querySelector(`#task-${id}`);
 
-const updateStatus = (id) => {
-  tasks[id].status = tasks[id].status === 'completed' ? 'pending' : 'completed';
-  localStorage.setItem('tasks', JSON.stringify(tasks));
+  const checked = task.status === 'completed' ? 'checked' : '';
+  const li = `
+    <li id="task-${id}" data-task-id="${id}" class="${checked}">
+        <label for="${id}">
+            <input type="checkbox" id="${id}" class="checkbox" ${checked}>
+            <p>${task.name}</p>
+        </label>
+        <img class="edit-btn" data-task-id="${id}" src="img/icon_edit-menu.svg" alt="edit menu">
+    </li>
+    `;
 
-  // update class of list element
-  const liElement = document.querySelector(`li:nth-child(${id + 1})`);
-  if (tasks[id].status === 'completed') {
-    liElement.classList.add('checked');
+  if (existingTask) {
+    existingTask.outerHTML = li;
   } else {
-    liElement.classList.remove('checked');
+    toDoList.insertAdjacentHTML('beforeend', li);
   }
-
-  countTasks();
 }
 
-// event delegation for checkboxes
-toDoList.addEventListener('change', evt => {
-  if (evt.target.matches('.checkbox')) {
-    const taskId = parseInt(evt.target.id);
+const saveTasks = () => {
+  clearTimeout(saveTimeout);
+  saveTimeout = setTimeout(() => {
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+      countTasks();
+  }, 500);
+}
+
+const countTasks = () => {
+  console.log("countTasks called");
+  const completedTasksArr = tasks.filter(task =>
+    task.status === 'completed'
+  );
+
+  if (tasks.length === 0) {
+    toDoStatus.style.display = 'none';
+  } else {
+    toDoStatus.style.display = 'block';
+    completedTasks.innerText = completedTasksArr.length;
+    totalTasks.innerText = tasks.length;
+  }
+
+  const progressPercent = (completedTasksArr.length / tasks.length) * 100;
+  const progress = document.querySelector('.progress');
+  progress.style.width = `${progressPercent}%`;
+  console.log(tasks.length);
+}
+
+toDoList.addEventListener('click', evt => {
+  const taskId = evt.target.closest('li')?.getAttribute('data-task-id');
+
+  if (!taskId) return;
+
+  if (evt.target.matches('.edit-btn')) {
+    showEditMenu(taskId);
+  } else if (evt.target.matches('.checkbox')) {
     updateStatus(taskId);
   }
 });
 
-toDoList.addEventListener('click', evt => {
-  if (evt.target.matches('.edit-btn')) {
-    const taskId = evt.target.getAttribute('data-task-id');
-    showEditMenu(taskId);
-  }
-});
-
-const showEditMenu = (taskId) => {
-  editMenu.setAttribute('data-current-task-id', taskId); // save current task ID
+const showEditMenu = taskId => {
+  editMenu.setAttribute('data-current-task-id', taskId);
   editMenu.classList.toggle('open'); // show menu
   overlay.classList.toggle('open');
 }
 
+const updateStatus = id => {
+  tasks[id].status = tasks[id].status === 'completed' ? 'pending' : 'completed';
+  const taskElement = document.querySelector(`#task-${id}`);
+  if (tasks[id].status === 'completed') {
+    taskElement.classList.add('checked');
+  } else {
+    taskElement.classList.remove('checked');
+  }
+
+  countTasks();
+  saveTasks();
+}
+
 editMenu.addEventListener('click', evt => {
-  const taskId = editMenu.getAttribute('data-current-task-id');
+  const taskId = editMenu.getAttribute('data-current-task-id'); // save current task ID
 
   if (evt.target.closest('#edit')) {
-    // set edit mode and save task ID
+     // set edit mode and save task ID
     editingMode = true;
     editingTaskId = parseInt(taskId);
-
     // show task name in input field
     taskInput.value = tasks[taskId].name;
-    taskInput.style.outline = 'none';
-    taskInput.style.backgroundColor = 'var(--light-green)';
-    taskInput.focus();
+    taskInput.classList.add('editing');
+    //taskInput.focus();
     editMenu.classList.remove('open'); // close menu
     overlay.classList.remove('open');
   } else if (evt.target.closest('#delete')) {
-    // delete-logic
-    tasks.splice(taskId, 1);
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-    createTask();
-    editMenu.classList.remove('open'); // close menu
-    overlay.classList.remove('open');
+      tasks.splice(parseInt(taskId), 1); // Lösche den Task aus dem tasks Array
+  
+      const taskElement = document.querySelector(`#task-${taskId}`);
+      taskElement.remove(); // Entferne nur den spezifischen Task aus dem DOM
+  
+      saveTasks();
+      editMenu.classList.remove('open');
+      overlay.classList.remove('open');
   }
+  countTasks();
 });
 
 // close menu when clicked outside of it
@@ -131,17 +163,15 @@ document.addEventListener('click', evt => {
   }
 });
 
-const countTasks = () => {
-  const completedTasksArr = tasks.filter(task =>
-    task.status === 'completed'
-  );
-  completedTasks.innerText = completedTasksArr.length;
-  totalTasks.innerText = tasks.length;
-
-  const progressPercent = (completedTasksArr.length / tasks.length) * 100;
-  const progressBar = document.querySelector('.progress');
-  progressBar.style.width = `${progressPercent}%`;
+// reset form and show all tasks on page load
+window.onload = () => {
+  toDoForm.reset();
+  console.log("window.onload triggered");
+  if (tasks.length === 0) {
+    countTasks();
+  } else {
+    tasks.forEach((task, id) => {
+      addOrUpdateTask(task, id);
+    });
+  }
 }
-
-// display tasks when the page loads
-createTask();
