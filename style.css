@@ -76,6 +76,10 @@ header h1 {
   cursor: pointer;
 }
 
+#todo-status {
+  display: none;
+}
+
 .task-count {
   display: flex;
   justify-content: space-between;
@@ -168,6 +172,7 @@ header h1 {
 
 .todo-form .todo-input.editing {
   background: var(--light-grey);
+  outline: none;
 }
 
 .overlay {
