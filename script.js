@@ -8,6 +8,9 @@ const completedTasks = document.querySelector('#completed-tasks');
 const totalTasks = document.querySelector('#total-tasks');
 const overlay = document.querySelector('#overlay');
 const editMenu = document.querySelector('#edit-menu');
+const mainMenu = document.querySelector('#main-menu');
+const checkMenu = document.querySelector('#check-menu');
+const sortMenu = document.querySelector('#sort-menu');
 
 let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 let editingTaskId = null;
@@ -100,6 +103,18 @@ toDoList.addEventListener('click', evt => {
   }
 });
 
+mainMenu.addEventListener('click', evt => {
+  overlay.classList.toggle('open');
+
+  if (evt.target.matches('.check-btn')) {
+    checkMenu.classList.toggle('open'); // show check menu
+    overlay.classList.toggle('open');
+  } else if (evt.target.matches('.sort-btn')) {
+    sortMenu.classList.toggle('open'); // show sort menu
+    overlay.classList.toggle('open');
+  }
+});
+
 editMenu.addEventListener('click', evt => {
   const taskId = parseInt(editMenu.getAttribute('data-current-task-id')); // save current task ID
 
@@ -122,6 +137,11 @@ editMenu.addEventListener('click', evt => {
 
 // close edit menu when clicked outside of it
 document.addEventListener('click', evt => {
+  if (!mainMenu.contains(evt.target)) {
+    checkMenu.classList.remove('open');
+    sortMenu.classList.remove('open');
+    overlay.classList.remove('open');
+  }
   if (!editMenu.contains(evt.target) && !evt.target.matches('.edit-btn')) {
     editMenu.classList.remove('open');
     overlay.classList.remove('open');
