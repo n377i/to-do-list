@@ -35,10 +35,26 @@
     </ul>
   </div>
   <div id="overlay" class="overlay"></div>
-  <ul id="edit-menu" class="edit-menu">
+  <ul id="check-menu" class="toggle-menu">
+    <li id="check-all" class="menu-item"><img src="img/icon_edit.svg" alt="check all">Check all</li>
+    <li id="uncheck-all" class="menu-item"><img src="img/icon_edit.svg" alt="uncheck all">Uncheck all</li>
+    <li id="delete-checked" class="menu-item"><img src="img/icon_delete.svg" alt="delete all checked">Delete all checked</li>
+    <li id="delete-unchecked" class="menu-item"><img src="img/icon_delete.svg" alt="delete all unchecked">Delete all unchecked</li>
+  </ul>
+  <ul id="sort-menu" class="toggle-menu">
+    <li id="sort-manually" class="menu-item"><img src="img/icon_edit.svg" alt="sort manually">Sort manually</li>
+    <li id="sort-alphabetically" class="menu-item"><img src="img/icon_edit.svg" alt="sort alphabetically">Sort alphabetically</li>
+    <li id="date-ascending" class="menu-item"><img src="img/icon_delete.svg" alt="sort by date created (ascending)">Sort by date created (ascending)</li>
+    <li id="date-descending" class="menu-item"><img src="img/icon_delete.svg" alt="sort by date created (descending)">Sort by date created (descending)</li>
+  </ul>
+  <ul id="edit-menu" class="toggle-menu">
     <li id="edit" class="menu-item"><img src="img/icon_edit.svg" alt="edit">Edit</li>
     <li id="delete" class="menu-item"><img src="img/icon_delete.svg" alt="delete">Delete</li>
   </ul>
+  <div id="main-menu" class="main-menu">
+    <img src="img/icon_menu_check.svg" class="check-btn" alt="check menu">
+    <img src="img/icon_menu_sort.svg" class="sort-btn" alt="sort menu">
+  </div>
 </body>
 
 </html>
