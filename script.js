@@ -13,6 +13,12 @@ const checkMenu = document.querySelector('#check-menu');
 const sortMenu = document.querySelector('#sort-menu');
 
 let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+// convert date string back to date object
+tasks.forEach(task => {
+  if (task.date && typeof task.date === 'string') {
+      task.date = new Date(task.date);
+  }
+});
 let editingTaskId = null;
 
 const updateDOM = () => {
@@ -68,6 +74,7 @@ toDoForm.addEventListener('submit', evt => {
   } else {
     tasks.push({
       name: taskInput.value,
+      date: new Date().toISOString(), // convert date to string to be able to save it in local storage
       status: 'pending'
     });
   }
@@ -114,6 +121,61 @@ mainMenu.addEventListener('click', evt => {
     overlay.classList.toggle('open');
   }
 });
+
+checkMenu.addEventListener('click', evt => {
+  if (evt.target.closest('#check-all')) {
+    tasks.forEach(task => {
+      task.status = 'completed'; // set all tasks to completed
+    });
+    updateDOM();
+  } else if (evt.target.closest('#uncheck-all')) {
+    tasks.forEach(task => {
+      task.status = 'pending'; // set all tasks to pending
+    });
+    updateDOM(); 
+  } else if (evt.target.closest('#delete-checked')) {
+    tasks = tasks.filter(task => task.status !== 'completed'); // remove all completed tasks
+    updateDOM();
+  } else if (evt.target.closest('#delete-unchecked')) {
+    tasks = tasks.filter(task => task.status !== 'pending'); // remove all pending tasks
+    updateDOM();
+  }
+
+  saveTasks();
+  countTasks();
+  
+  checkMenu.classList.remove('open'); // close sort menu
+  overlay.classList.remove('open');
+});
+
+sortMenu.addEventListener('click', evt => {
+  if (evt.target.closest('#sort-manually')) {
+
+  } else if (evt.target.closest('#sort-alphabetically')) {
+    tasks.sort((a, b) => {
+      if (a.name < b.name) {
+        return -1;
+      }
+      if (a.name > b.name) {
+        return 1;
+      }
+      return 0;
+    });
+    updateDOM();
+  } else if (evt.target.closest('#date-ascending')) {
+    tasks.sort((a, b) => a.date.getTime() - b.date.getTime());
+    updateDOM();
+  } else if (evt.target.closest('#date-descending')) {
+    tasks.sort((a, b) => b.date.getTime() - a.date.getTime());
+    updateDOM();
+  }
+
+  saveTasks();
+  
+  sortMenu.classList.remove('open'); // close sort menu
+  overlay.classList.remove('open');
+});
+
 
 editMenu.addEventListener('click', evt => {
   const taskId = parseInt(editMenu.getAttribute('data-current-task-id')); // save current task ID
