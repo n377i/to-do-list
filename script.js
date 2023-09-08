@@ -20,6 +20,10 @@ tasks.forEach(task => {
   }
 });
 let editingTaskId = null;
+let sortable = new Sortable(toDoList, {
+  animation: 150,
+  sort: false // not sortable by default
+});
 
 const updateDOM = () => {
   toDoList.innerHTML = '';
@@ -31,10 +35,11 @@ const addOrUpdateTask = (task, id) => {
   const checked = task.status === 'completed' ? 'checked' : '';
   const li = `
       <li id="task-${task.id}" data-task-id="${task.id}" class="${checked}">
-          <label for="${id}">
-              <input type="checkbox" id="${id}" class="checkbox" ${checked}>
-              <p>${task.name}</p>
+          <label for="task-checkbox-${task.id}">
+            <input type="checkbox" id="task-checkbox-${task.id}" class="checkbox" ${checked}>
+            <p>${task.name}</p>
           </label>
+
           <img class="edit-btn" data-task-id="${id}" src="img/icon_edit-menu.svg" alt="edit menu">
       </li>
       `;
@@ -98,7 +103,6 @@ toDoForm.addEventListener('input', () => {
 });
 
 toDoList.addEventListener('click', evt => {
-  const sortIcon = document.querySelector('.sort-btn');
   const taskId = evt.target.closest('li')?.getAttribute('data-task-id');
   
   if (!taskId) return;
@@ -157,7 +161,9 @@ checkMenu.addEventListener('click', evt => {
 });
 
 sortMenu.addEventListener('click', evt => {
-  if (evt.target.closest('#sort-alphabetically')) {
+  if (evt.target.closest('#sort-manually')) {
+    sortable.option("sort", true);
+  } else if (evt.target.closest('#sort-alphabetically')) {
       tasks.sort((a, b) => {
           if (a.name < b.name) {
               return -1;
@@ -167,20 +173,18 @@ sortMenu.addEventListener('click', evt => {
           }
           return 0;
       });
-      updateDOM();
-  } else if (evt.target.closest('#date-ascending')) {
+    } else if (evt.target.closest('#date-ascending')) {
       tasks.sort((a, b) => a.date.getTime() - b.date.getTime());
-      updateDOM();
-  } else if (evt.target.closest('#date-descending')) {
+    } else if (evt.target.closest('#date-descending')) {
       tasks.sort((a, b) => b.date.getTime() - a.date.getTime());
-      updateDOM();
-  }
+    }
 
-  saveTasks();
-  
-  sortMenu.classList.remove('open'); // close sort menu
-  overlay.classList.remove('open');
+    updateDOM();
+    saveTasks();
+    sortMenu.classList.remove('open');
+    overlay.classList.remove('open');
 });
+
 
 editMenu.addEventListener('click', evt => {
   const taskId = parseInt(editMenu.getAttribute('data-current-task-id'));
@@ -206,7 +210,6 @@ editMenu.addEventListener('click', evt => {
 
 });
 
-
 // close edit menu when clicked outside of it
 document.addEventListener('click', evt => {
   if (!mainMenu.contains(evt.target)) {
@@ -217,6 +220,12 @@ document.addEventListener('click', evt => {
   if (!editMenu.contains(evt.target) && !evt.target.matches('.edit-btn')) {
     editMenu.classList.remove('open');
     overlay.classList.remove('open');
+  }
+});
+
+document.addEventListener('mousedown', function(evt) {
+  if (!toDoList.contains(evt.target) && sortable.option("sort")) {
+    sortable.option("sort", false);
   }
 });
 
