@@ -22,8 +22,21 @@ tasks.forEach(task => {
 let editingTaskId = null;
 let sortable = new Sortable(toDoList, {
   animation: 150,
-  sort: false // not sortable by default
+  sort: false, // not sortable by default
+  onEnd: function() {
+    const updatedTasks = [];
+    toDoList.querySelectorAll('li').forEach(li => {
+      const taskId = li.getAttribute('data-task-id');
+      const task = tasks.find(t => t.id == taskId);
+      if (task) {
+        updatedTasks.push(task);
+      }
+    });
+    tasks = updatedTasks;
+    saveTasks();
+  }
 });
+
 
 const updateDOM = () => {
   toDoList.innerHTML = '';
@@ -164,25 +177,26 @@ sortMenu.addEventListener('click', evt => {
   if (evt.target.closest('#sort-manually')) {
     sortable.option("sort", true);
   } else if (evt.target.closest('#sort-alphabetically')) {
-      tasks.sort((a, b) => {
-          if (a.name < b.name) {
-              return -1;
-          }
-          if (a.name > b.name) {
-              return 1;
-          }
-          return 0;
-      });
-    } else if (evt.target.closest('#date-ascending')) {
-      tasks.sort((a, b) => a.date.getTime() - b.date.getTime());
-    } else if (evt.target.closest('#date-descending')) {
-      tasks.sort((a, b) => b.date.getTime() - a.date.getTime());
-    }
+    tasks.sort((a, b) => {
+      if (a.name < b.name) {
+        return -1;
+      }
+      if (a.name > b.name) {
+        return 1;
+      }
+      return 0;
+    });
+  } else if (evt.target.closest('#date-ascending')) {
+    tasks.sort((a, b) => a.date.getTime() - b.date.getTime());
+  } else if (evt.target.closest('#date-descending')) {
+    tasks.sort((a, b) => b.date.getTime() - a.date.getTime());
+  }
 
-    updateDOM();
-    saveTasks();
-    sortMenu.classList.remove('open');
-    overlay.classList.remove('open');
+  saveTasks();
+  updateDOM();
+  
+  sortMenu.classList.remove('open');
+  overlay.classList.remove('open');
 });
 
 
