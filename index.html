@@ -1,61 +1,104 @@
 <!DOCTYPE html>
 <html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>To-Do List</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>To-Do List</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap">
-  <link rel="stylesheet" href="style.css" />
-  <script src="script.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
-</head>
-
-<body>
-  <header>
-    <h1>To-Do List</h1>
-    <form id="todo-form" class="todo-form">
-      <input type="text" id="todo-input" class="todo-input" placeholder="Add a task"><input type="submit"
-        class="add-btn" title="Add task" value="">
-    </form>
-  </header>
-  <div class="todo-main">
-    <div id="todo-status">
-      <div class="task-count">
-        Completed
-        <div class="count-display">
-          <span id="completed-tasks">0</span>/<span id="total-tasks">0</span>
+  <body>
+    <header>
+      <h1>To-Do List</h1>
+      <form id="todo-form" class="todo-form">
+        <input
+          type="text"
+          id="todo-input"
+          class="todo-input"
+          placeholder="Add a task"
+        /><input
+          type="submit"
+          class="todo-form__add-btn submit"
+          title="Add task"
+          value=""
+        />
+      </form>
+    </header>
+    <div class="todo-main">
+      <div id="todo-status">
+        <div class="task-count">
+          Completed
+          <div class="count-display">
+            <span id="completed-tasks">0</span>/<span id="total-tasks">0</span>
+          </div>
+        </div>
+        <div id="progress-bar" class="progress-bar">
+          <div class="progress"></div>
         </div>
       </div>
-      <div id="progress-bar" class="progress-bar">
-        <div class="progress"></div>
+      <ul id="todo-list" class="todo-list"></ul>
+    </div>
+    <div id="overlay" class="overlay"></div>
+    <ul id="check-menu" class="toggle-menu">
+      <li id="check-all" class="menu-item">
+        <img src="img/icon_check-all.svg" alt="check all" />Check all
+      </li>
+      <li id="uncheck-all" class="menu-item">
+        <img src="img/icon_uncheck-all.svg" alt="uncheck all" />Uncheck all
+      </li>
+      <li id="delete-checked" class="menu-item">
+        <img src="img/icon_delete.svg" alt="delete all checked" />Delete all
+        checked
+      </li>
+      <li id="delete-unchecked" class="menu-item">
+        <img src="img/icon_delete.svg" alt="delete all unchecked" />Delete all
+        unchecked
+      </li>
+    </ul>
+    <ul id="sort-menu" class="toggle-menu">
+      <li id="sort-manually" class="menu-item">
+        <img src="img/icon_hand.svg" alt="sort manually" />Sort manually
+      </li>
+      <li id="sort-alphabetically" class="menu-item">
+        <img src="img/icon_a2z.svg" alt="sort alphabetically" />Sort
+        alphabetically
+      </li>
+      <li id="date-ascending" class="menu-item">
+        <img
+          src="img/icon_date-asc.svg"
+          alt="sort by date created (ascending)"
+        />Sort by date created (ascending)
+      </li>
+      <li id="date-descending" class="menu-item">
+        <img
+          src="img/icon_date-desc.svg"
+          alt="sort by date created (descending)"
+        />Sort by date created (descending)
+      </li>
+    </ul>
+    <ul id="edit-menu" class="toggle-menu">
+      <li id="edit" class="menu-item">
+        <img src="img/icon_edit.svg" alt="edit" />Edit
+      </li>
+      <li id="delete" class="menu-item">
+        <img src="img/icon_delete.svg" alt="delete" />Delete
+      </li>
+    </ul>
+    <div id="main-menu" class="main-menu">
+      <div class="main-menu__items">
+        <img src="img/icon_menu_check.svg" class="check-btn" alt="check menu" />
+        <button class="submit main-menu__add-btn">
+          <img src="img/icon_add_lg.svg" alt="Add task" />
+        </button>
+        <img src="img/icon_menu_sort.svg" class="sort-btn" alt="sort menu" />
       </div>
     </div>
-    <ul id="todo-list" class="todo-list">
-    </ul>
-  </div>
-  <div id="overlay" class="overlay"></div>
-  <ul id="check-menu" class="toggle-menu">
-    <li id="check-all" class="menu-item"><img src="img/icon_check-all.svg" alt="check all">Check all</li>
-    <li id="uncheck-all" class="menu-item"><img src="img/icon_uncheck-all.svg" alt="uncheck all">Uncheck all</li>
-    <li id="delete-checked" class="menu-item"><img src="img/icon_delete.svg" alt="delete all checked">Delete all checked</li>
-    <li id="delete-unchecked" class="menu-item"><img src="img/icon_delete.svg" alt="delete all unchecked">Delete all unchecked</li>
-  </ul>
-  <ul id="sort-menu" class="toggle-menu">
-    <li id="sort-manually" class="menu-item"><img src="img/icon_hand.svg" alt="sort manually">Sort manually</li>
-    <li id="sort-alphabetically" class="menu-item"><img src="img/icon_a2z.svg" alt="sort alphabetically">Sort alphabetically</li>
-    <li id="date-ascending" class="menu-item"><img src="img/icon_date-asc.svg" alt="sort by date created (ascending)">Sort by date created (ascending)</li>
-    <li id="date-descending" class="menu-item"><img src="img/icon_date-desc.svg" alt="sort by date created (descending)">Sort by date created (descending)</li>
-  </ul>
-  <ul id="edit-menu" class="toggle-menu">
-    <li id="edit" class="menu-item"><img src="img/icon_edit.svg" alt="edit">Edit</li>
-    <li id="delete" class="menu-item"><img src="img/icon_delete.svg" alt="delete">Delete</li>
-  </ul>
-  <div id="main-menu" class="main-menu">
-    <img src="img/icon_menu_check.svg" class="check-btn" alt="check menu">
-    <img src="img/icon_menu_sort.svg" class="sort-btn" alt="sort menu">
-  </div>
-</body>
-
+  </body>
 </html>
