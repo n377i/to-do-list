@@ -8,14 +8,14 @@
   --light-green: #f5faeb;
   --light-red: #fbf4f2;
   --red: #e62600;
-  --text-color: #4A5045;
+  --text-color: #4a5045;
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  font-family: "Inter", Arial, Helvetica, sans-serif;
   color: var(--text-color);
 }
 
@@ -38,7 +38,7 @@ header h1 {
   min-height: calc(100vh - 11.025rem);
   background: var(--light-grey);
   margin-top: -0.975rem;
-  padding: 1.25rem 1rem 0;
+  padding: 1.25rem 1rem 6.75rem;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
@@ -59,7 +59,7 @@ header h1 {
   border-radius: 8px;
 }
 
-.todo-form .add-btn {
+.todo-form__add-btn {
   position: absolute;
   content: "";
   display: block;
@@ -67,7 +67,7 @@ header h1 {
   height: 1.125rem;
   border: none;
   outline: none;
-  background-image: url('img/icon_add.svg');
+  background-image: url("img/icon_add_sm.svg");
   background-repeat: no-repeat;
   background-color: transparent;
   right: 2rem;
@@ -130,7 +130,7 @@ header h1 {
 .todo-list li p {
   flex: 1;
   word-break: break-all;
-  margin: 0 0.875rem
+  margin: 0 0.875rem;
 }
 
 .todo-list li.checked {
@@ -175,13 +175,9 @@ header h1 {
   outline: none;
 }
 
-
 /* main menu */
 
 .main-menu {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
   width: 100%;
   position: fixed;
   bottom: 0;
@@ -190,12 +186,36 @@ header h1 {
   box-shadow: 0px -1px 0px 0px rgba(74, 80, 69, 0.25);
 }
 
-.main-menu img {
+.main-menu__items {
+  display: flex;
+  justify-content: space-around;
+  align-items: end;
+  position: relative;
+  bottom: 1.688rem;
+}
+
+.main-menu__items img {
   width: auto;
   height: 1.625rem;
   cursor: pointer;
 }
 
+.main-menu__add-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 4.375rem;
+  height: 4.375rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--green-gradient));
+  border: none;
+  cursor: pointer;
+}
+
+.main-menu__add-btn img {
+  width: 32px;
+  height: 32px;
+}
 
 /* toggle menus */
 
@@ -249,4 +269,8 @@ header h1 {
 
 .menu-item {
   cursor: pointer;
+}
+
+.sortable-chosen {
+  cursor: grab;
 }
