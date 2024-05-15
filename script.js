@@ -2,6 +2,7 @@
 
 const toDoForm = document.querySelector("#todo-form");
 const taskInput = document.querySelector("#todo-input");
+const submitButtons = document.querySelectorAll(".submit");
 const toDoList = document.querySelector("#todo-list");
 const toDoStatus = document.querySelector("#todo-status");
 const completedTasks = document.querySelector("#completed-tasks");
@@ -84,37 +85,40 @@ const countTasks = () => {
   document.querySelector(".progress").style.width = `${progressPercent}%`;
 };
 
-toDoForm.addEventListener("submit", (evt) => {
-  evt.preventDefault();
+submitButtons.forEach((button) => {
+  button.addEventListener("click", (evt) => {
+    evt.preventDefault();
 
-  if (taskInput.value) {
-    if (editingTaskId !== null) {
-      const task = tasks.find((t) => t.id == editingTaskId);
-      if (task) {
-        task.name = taskInput.value;
-        editingTaskId = null; // reset to ensure that a new task is added next time
+    if (taskInput.value) {
+      if (editingTaskId !== null) {
+        const task = tasks.find((t) => t.id == editingTaskId);
+        if (task) {
+          task.name = taskInput.value;
+          editingTaskId = null; // reset to ensure that a new task is added next time
+        }
+      } else {
+        tasks.push({
+          id: new Date().getTime(),
+          name: taskInput.value,
+          date: new Date().toISOString(), // convert date to string to be able to save it in local storage
+          status: "pending",
+        });
       }
     } else {
-      tasks.push({
-        id: new Date().getTime(),
-        name: taskInput.value,
-        date: new Date().toISOString(), // convert date to string to be able to save it in local storage
-        status: "pending",
-      });
+      taskInput.classList.add("invalid-input");
+      taskInput.focus();
+      return;
     }
-  } else {
-    taskInput.classList.add("invalid-input");
-    return;
-  }
 
-  saveTasks();
-  updateDOM();
+    saveTasks();
+    updateDOM();
 
-  // reset all
-  editingTaskId = null;
-  taskInput.classList.remove("invalid-input");
-  taskInput.classList.remove("editing");
-  toDoForm.reset();
+    // reset all
+    editingTaskId = null;
+    taskInput.classList.remove("invalid-input");
+    taskInput.classList.remove("editing");
+    toDoForm.reset();
+  });
 });
 
 toDoForm.addEventListener("input", () => {
