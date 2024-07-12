@@ -2,6 +2,8 @@
 
 This app allows you to list, edit, check off, delete and sort tasks in various ways. A progress bar shows the number of completed and pending tasks. More features will be added soon.
 
+## Demo
+
 <div align="center">
   <img src="https://github.com/user-attachments/assets/e8e16db2-fc19-40e1-b9f2-a373dd4a37f5" alt="demo">
 </div>
